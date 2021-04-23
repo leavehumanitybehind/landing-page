@@ -25,18 +25,18 @@ header {
 }
 
 .intro {
-    background-image: url("../img/mobile-bg.svg");
+    background-image: url("../img/dest/mobile-bg.svg");
     background-repeat: no-repeat;
     background-size: 102% 253px;
     text-align: center;
     @media (min-width: $tablet-width) {
-        background-image: url("../img/tablet-bg.svg");
+        background-image: url("../img/dest/tablet-bg.svg");
         background-size: 100% 357px;
         background-position:center;
     }
 
     @media (min-width: $desktop-width) {
-        background-image: url("../img/main-bg.svg");
+        background-image: url("../img/dest/main-bg.svg");
         min-height: 450px;
         background-size: cover;
     }
