@@ -1,0 +1,123 @@
+.advantages {
+    position: relative;
+    margin: 144px 24px 154px 24px;
+    text-align: left;
+    @media (min-width: $tablet-width) {
+        margin: 108px 104px 111px;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: -19%;
+        left: 47%;
+        width: 26px;
+        height: 42px;
+        background: url("../img/btn-img.svg") no-repeat;
+
+        @media (min-width: $tablet-width) {
+            top: -22%;
+            left: 48%;
+        }
+
+        @media (min-width: $desktop-width) {
+            display: block;
+            top: -65%;
+            left: 49%;
+        }
+    }
+}
+
+.advantages__list {
+    @include no-list;
+    &-item {
+        display: block;
+        text-align: center;
+        margin-bottom: 56px;
+
+        @media (min-width: $tablet-width) {
+            display: flex;
+            text-align: left;
+            margin-bottom: 6px;
+        }
+
+        @media (min-width: $desktop-width) {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-right: 30px;
+        }
+    }
+
+    @media (min-width: $desktop-width) {
+        display: flex;
+    }
+}
+
+.advantages__list-item div {
+     @media (min-width: $tablet-width) {
+        padding-top: 15px;
+    }
+}
+
+.advantages__list-img {
+    @include background-center;
+    background-color: $basic-blue;
+    border-radius: 45px;
+    margin-bottom: 30px;
+
+    @media (min-width: $tablet-width) {
+        margin-right: 55px;
+    }
+
+    @media (min-width: $desktop-width) {
+        margin-bottom: 48px;
+        margin-right: 0;
+    }
+
+    &--egg {
+        padding: 22px 20px 22px 30px;
+        @media (min-width: $tablet-width) {
+            margin-left: 55px;
+        }
+        @media (min-width: $desktop-width) {
+            width: 88px;
+            height: 106px;
+            margin-left: 0;
+            padding: 29px 30px 29px 40px;
+        }
+    }
+    &--money-jar {
+        padding: 28px 28px 28px 30px;
+        @media (min-width: $desktop-width) {
+            margin-top: 55px;
+            width: 74px;
+            height: 89px;
+            padding: 38px 41px 38px 43px;
+        }
+    }
+
+    &--coctail {
+        padding: 27px 30px 26px 28px;
+        @media (min-width: $tablet-width) {
+            margin-left: 55px;
+        }
+        @media (min-width: $desktop-width) {
+            margin-left: 0;
+            width: 80px;
+            height: 94px;
+            padding: 36x 40px 36px 40px;
+        }
+    }
+
+    &--trip {
+        padding: 34px 21px 33px 21px;
+
+        @media (min-width: $desktop-width) {
+            margin-top: 55px;
+            width: 104px;
+            height: 74px;
+            padding: 45px 28px;
+        }
+    }
+}

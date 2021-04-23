@@ -1,0 +1,21 @@
+@mixin no-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin no-btn {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin no-default-indent {
+  margin: 0;
+  padding: 0;
+}
+
+@mixin background-center {
+  background-repeat: no-repeat;
+  background-position: center center;
+}
