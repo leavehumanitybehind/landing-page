@@ -98,7 +98,7 @@ function startwatch() {
     watch('app/**/*.html').on('change', browserSync.reload);
 
     // Мониторим папку-источник изображений и выполняем images(), если есть изменения
-    watch('app/img/src/**/*', img);
+    watch('app/img/**/*', images);
 
 }
 
