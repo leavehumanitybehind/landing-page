@@ -79,19 +79,17 @@ color: $white;
 .footer-btn {
     background-color: $accent-blue;
     border-radius: 24px;
-    padding: 12px 0px 11px 18px;
+    padding: 12px 18px;
     border: none;
     margin-bottom: 24px;
+    text-align: center;
     color: $dark-blue;
     font-family: "Manrope", sans-serif;
     font-weight: 800;
     font-size: 15px;
     line-height: 25px;
-        outline: none;
+    outline: none;
 
-    @media (min-width: $tablet-width) {
-        padding: 12px 18px;
-    }
 
     &:hover,& :active, &:focus {
         background-color: inherit;
@@ -104,9 +102,14 @@ color: $white;
 
 .error-msg {
     margin-top: -20px;
-    text-align: left;
+    text-align: center;
     color: $accent-pink;
     opacity: 0;
+
+
+    @media (min-width: $tablet-width) {
+      text-align: left;
+    }
 
     @media (min-width: $desktop-width) {
         padding-left: 90px;
