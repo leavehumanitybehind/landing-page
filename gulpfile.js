@@ -1,4 +1,5 @@
 const { src, dest, parallel, series, watch } = require('gulp');
+let gulp = require("gulp");
 const concat = require('gulp-concat');
 const sass = require('gulp-sass');
 // Подключаем gulp-imagemin для работы с изображениями
@@ -89,5 +90,9 @@ exports.scripts = scripts;
 exports.styles = styles;
 exports.images = images;
 exports.cleanimg = cleanimg;
-exports.build = series(styles, scripts, images, buildcopy, cleandist);
+
+gulp.task("build", gulp.series(
+    styles, scripts, images, buildcopy, cleandist
+));
+
 exports.default = parallel(styles, scripts, browsersync, startwatch);
