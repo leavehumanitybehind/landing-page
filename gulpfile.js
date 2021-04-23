@@ -14,6 +14,14 @@ const cleancss = require('gulp-clean-css');
 // Подключаем gulp-uglify-es
 const uglify = require('gulp-uglify-es').default;
 const browserSync = require('browser-sync').create();
+const deploy = require('gulp-deploy-git');
+
+gulp.task('deploy', function () {
+    return gulp.src('dist/**/*', { read: false })
+        .pipe(deploy({
+            repository: 'https://github.com/ubitinonevami/landing-page.git'
+        }));
+});
 let preprocessor = 'sass'; // Выбор препроцессора в проекте - sass или less
 function browsersync() {
     browserSync.init({ // Инициализация Browsersync
