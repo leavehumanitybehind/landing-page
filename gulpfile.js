@@ -1,29 +1,38 @@
+// Определяем переменную "preprocessor"
+let preprocessor = 'sass';
+let scss = "scss";
+
+// Определяем константы Gulp
 const { src, dest, parallel, series, watch } = require('gulp');
-let gulp = require("gulp");
+
+// Подключаем Browsersync
+const browserSync = require('browser-sync').create();
+
+// Подключаем gulp-concat
 const concat = require('gulp-concat');
-const sass = require('gulp-sass');
-// Подключаем gulp-imagemin для работы с изображениями
-const imagemin = require('gulp-imagemin');
-// Подключаем модуль gulp-newer
-const newer = require('gulp-newer');
-// Подключаем модуль del
-const del = require('del');
-// Подключаем Autoprefixer
-const autoprefixer = require('gulp-autoprefixer');
-// Подключаем модуль gulp-clean-css
-const cleancss = require('gulp-clean-css');
+
 // Подключаем gulp-uglify-es
 const uglify = require('gulp-uglify-es').default;
-const browserSync = require('browser-sync').create();
-const deploy = require('gulp-deploy-git');
 
-gulp.task('deploy', function () {
-    return gulp.src('dist/**/*', { read: false })
-        .pipe(deploy({
-            repository: 'https://github.com/ubitinonevami/landing-page.git'
-        }));
-});
-let preprocessor = 'sass'; // Выбор препроцессора в проекте - sass или less
+// Подключаем модули gulp-sass и gulp-less
+const sass = require('gulp-sass');
+
+// Подключаем Autoprefixer
+const autoprefixer = require('gulp-autoprefixer');
+
+// Подключаем модуль gulp-clean-css
+const cleancss = require('gulp-clean-css');
+
+// Подключаем gulp-imagemin для работы с изображениями
+const imagemin = require('gulp-imagemin');
+
+// Подключаем модуль gulp-newer
+const newer = require('gulp-newer');
+
+// Подключаем модуль del
+const del = require('del');
+
+// Определяем логику работы Browsersync
 function browsersync() {
     browserSync.init({ // Инициализация Browsersync
         server: { baseDir: 'app/' }, // Указываем папку сервера
@@ -41,18 +50,9 @@ function scripts() {
         .pipe(dest('app/js/')) // Выгружаем готовый файл в папку назначения
         .pipe(browserSync.stream()) // Триггерим Browsersync для обновления страницы
 }
-function startwatch() {
-
-    // Выбираем все файлы JS в проекте, а затем исключим с суффиксом .min.js
-    watch(['app/**/*.js', '!app/**/*.min.js'], scripts);
-    watch("app/sass/**/*.{scss,sass}", styles);
-    watch('app/**/*.html').on('change', browserSync.reload);
-    watch('app/images/src/**/*', images);
-
-}
 
 function styles() {
-    return src('app/' + preprocessor + '/main.scss' + '') // Выбираем источник: "app/sass/main.sass" или "app/less/main.less"
+    return src('app/sass/main.scss' + '') // Выбираем источник: "app/sass/main.sass" или "app/less/main.less"
         .pipe(eval(preprocessor)()) // Преобразуем значение переменной "preprocessor" в функцию
         .pipe(concat('app.min.css')) // Конкатенируем в файл app.min.js
         .pipe(autoprefixer({ overrideBrowserslist: ['last 10 versions'], grid: true })) // Создадим префиксы с помощью Autoprefixer
@@ -69,12 +69,9 @@ function images() {
 }
 
 function cleanimg() {
-    return del('app/images/dest/**/*', { force: true }) // Удаляем всё содержимое папки "app/images/dest/"
+    return del('app/img/dest/**/*', { force: true }) // Удаляем всё содержимое папки "app/images/dest/"
 }
 
-function cleandist() {
-    return del('dist/**/*', { force: true }) // Удаляем всё содержимое папки "dist/"
-}
 function buildcopy() {
     return src([ // Выбираем нужные файлы
         'app/css/**/*.min.css',
@@ -85,14 +82,43 @@ function buildcopy() {
         .pipe(dest('dist')) // Выгружаем в папку с финальной сборкой
 }
 
+function cleandist() {
+    return del('dist/**/*', { force: true }) // Удаляем всё содержимое папки "dist/"
+}
+
+function startwatch() {
+
+    // Выбираем все файлы JS в проекте, а затем исключим с суффиксом .min.js
+    watch(['app/**/*.js', '!app/**/*.min.js'], scripts);
+
+    // Мониторим файлы препроцессора на изменения
+    watch('app/**/' + preprocessor + '/**/*', styles);
+
+    // Мониторим файлы HTML на изменения
+    watch('app/**/*.html').on('change', browserSync.reload);
+
+    // Мониторим папку-источник изображений и выполняем images(), если есть изменения
+    watch('app/img/src/**/*', img);
+
+}
+
+// Экспортируем функцию browsersync() как таск browsersync. Значение после знака = это имеющаяся функция.
 exports.browsersync = browsersync;
+
+// Экспортируем функцию scripts() в таск scripts
 exports.scripts = scripts;
+
+// Экспортируем функцию styles() в таск styles
 exports.styles = styles;
+
+// Экспорт функции images() в таск images
 exports.images = images;
+
+// Экспортируем функцию cleanimg() как таск cleanimg
 exports.cleanimg = cleanimg;
 
-gulp.task("build", gulp.series(
-    styles, scripts, images, buildcopy, cleandist
-));
+// Создаём новый таск "build", который последовательно выполняет нужные операции
+exports.build = series(cleandist, styles, scripts, images, buildcopy);
 
+// Экспортируем дефолтный таск с нужным набором функций
 exports.default = parallel(styles, scripts, browsersync, startwatch);
